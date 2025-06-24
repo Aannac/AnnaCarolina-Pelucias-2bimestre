@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raspe e Ganhe</title>
+  <link rel="stylesheet" href="./cupom.css">
+</head>
+<body>
+
+  <main id="cupomContainer"> <!--Representa o conteúdo principal da página-->
+    <h2>Raspe o cartão para revelar seu cupom!</h2> 
+
+    <section class="raspadinha" onclick="revelarCupom()"> <!--Tag <section>: Representa uma seção do conteúdo. A classe raspadinha aplica um estilo CSS -->
+      <div id="camada-cinza" class="camada-cinza">⬆ Clique para raspar</div> <!--Tag <div>: Cria uma divisão de conteúdo. A ID camada-cinza e a classe camada-cinza são usadas para aplicar estilos, e o texto instrui o usuário a clicar para raspar.-->
+      <div id="cupom" class="cupom-oculto">🎉 CUPOM: DESCONTO10 🎉</div> <!--cupom-oculto esconde inicialmente o cupom até o usuário interagir e mostra o cupom de desconto-->
+    </section> <!--Finaliza a seção que contém a raspadinha-->
+
+    <footer> <!--Representa a parte inferior da página, tipo um rodapé-->
+      <button onclick="voltarParaLoja()">Voltar à Loja</button>
+    </footer>
+  </main>
+
+  <script src="./cupom.js"></script>
+</body>
+</html>

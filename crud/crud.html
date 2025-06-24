@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciamento de Pelúcias - CRUD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="crud.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🧸 Gerenciamento de Pelúcias</h1>
+      <p>Sistema CRUD completo para gerenciar produtos da loja</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card"><h3 id="total-products">0</h3><p>Total de Produtos</p></div>
+      <div class="stat-card"><h3 id="avg-price">R$ 0,00</h3><p>Preço Médio</p></div>
+      <div class="stat-card"><h3 id="most-expensive">R$ 0,00</h3><p>Mais Caro</p></div>
+      <div class="stat-card"><h3 id="cheapest">R$ 0,00</h3><p>Mais Barato</p></div>
+      <a class="stat-card" href="../Index.html"><h3>Voltar Para a Loja</h3></a>
+    </div>
+
+    <div class="crud-section">
+      <h2 id="form-title">➕ Adicionar Novo Produto</h2>
+      <form id="product-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="product-name">Nome do Produto *</label>
+            <input type="text" id="product-name" required>
+          </div>
+          <div class="form-group">
+            <label for="product-price">Preço (R$) *</label>
+            <input type="number" id="product-price" step="0.01" min="0" required>
+          </div>
+          <div class="form-group">
+            <label for="product-image">Imagem do Produto</label>
+            <input type="file" id="product-image" accept="image/*">
+          </div>          
+        </div>
+        <div>
+          <button type="submit" class="btn" id="submit-btn">➕ Adicionar Produto</button>
+          <button type="button" class="btn btn-secondary" onclick="cancelEdit()" id="cancel-btn" style="display: none;">❌ Cancelar</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="crud-section">
+      <h2>🔍 Buscar e Filtrar Produtos</h2>
+      <div class="search-filter">
+        <div class="form-group" style="flex: 2;">
+          <label for="search-input">Buscar por nome</label>
+          <input type="text" id="search-input" placeholder="Digite o nome do produto..." oninput="filterProducts()">
+        </div>
+        <div class="form-group">
+          <label for="sort-by">Ordenar por</label>
+          <select id="sort-by" onchange="filterProducts()">
+            <option value="name">Nome</option>
+            <option value="price-asc">Preço (menor)</option>
+            <option value="price-desc">Preço (maior)</option>
+            <option value="id">ID</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="crud-section">
+      <h2>📋 Lista de Produtos</h2>
+      <div style="overflow-x: auto;">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Imagem</th>
+              <th>Nome</th>
+              <th>Preço</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="products-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirm-modal" class="modal">
+    <div class="modal-content">
+      <h3>Confirmar Exclusão</h3>
+      <p>Tem certeza que deseja excluir este produto?</p>
+      <div style="text-align: right; margin-top: 1.5rem;">
+        <button class="btn btn-secondary" onclick="closeConfirmModal()">Cancelar</button>
+        <button class="btn btn-danger" onclick="confirmDelete()">Excluir</button>
+      </div>
+    </div>
+  </div>
+ <section id="usuarios">
+    <h2>Gerenciar Usuários</h2>
+
+    <div class="crud-section">
+      <h3>👥 Lista de Usuários</h3>
+      <ul id="listaUsuarios"></ul>
+    </div>
+  </section>
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody id="tabela-usuarios"></tbody>
+  </table>
+  
+  
+
+  <div id="alerts-container" style="position: fixed; top: 20px; right: 20px; z-index: 2000;"></div>
+
+  <script src="crud.js"></script>
+</body>
+</html>

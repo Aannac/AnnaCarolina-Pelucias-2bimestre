@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja de Pelúcias</title>
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header> <!-- Início do cabeçalho da página -->
+    <h1>Plushies🧸</h1>
+    <nav> <!-- Abertura da navegação (menu) -->
+      <input type="text" id="searchInput" placeholder="Pesquisar..." oninput="searchProducts()">
+      <span class="cart" onclick="openCart()">🛒 Carrinho (<span id="cart-count">0</span>)</span>
+      <a href="./cupom/cupom.html" class="raspadinha-btn">🎁 Ganhe um Cupom de Desconto</a>
+      <span id="login-info" class="login-btn"></span>
+    </nav>
+  </header>
+
+  <main>  <!-- tag semantica, que representa o conteúdo principal da página,
+    ele não deve conter elementos repetitivos, como menus ou rodapés, mas sim com o propósito principal-->
+    <section>
+      <h2>Todas as Pelúcias</h2>
+      <div class="products" id="product-list"></div>
+    </section>
+  </main>
+
+  <!-- Modal (janela flutuante) do carrinho, que aparece ao clicar no ícone 🛒 -->
+  <section id="cartModal" class="modal">
+    <div class="modal-content">
+      <h2>Seu Carrinho</h2> 
+      <div id="cart-items"></div> <!-- uma <div> para listar os itens adicionados -->
+      <p>Total: R$ <span id="cart-total">0.00</span></p> <!--- mostra o total da compra -->
+      <button onclick="openCheckout()">Finalizar Compra</button>
+      <button onclick="closeCart()">Fechar</button>
+    </div>
+  </section>
+
+  <section id="checkoutModal" class="modal">
+    <div class="modal-content">
+      <h2>Finalizar Compra</h2>
+      <form onsubmit="finalizePurchase(); return false;">
+        <input type="text" placeholder="Nome Completo" id="Nome" required>
+        <input type="text" placeholder="Cidade" id="Cidade" required>
+        <input type="text" placeholder="Rua" id="Rua" required>
+        <input type="number" placeholder="Número" id="Numero" required>
+        <input type="number" placeholder="CEP" id="CEP" required>
+        <input type="text" placeholder="Complemento (Opcional)" id="Complemento">
+       <!-- Seção oculta por padrão para aplicar cupom de desconto, aparece apenas se houver cupom disponível. -->
+        <div id="cupom-section" style="display: none;">
+          <!-- Área do botão “Aplicar Cupom”, que só aparece se houver cupom ativo -->
+          <button id="btn-aplicar-cupom" type="button" onclick="aplicarCupom()">Aplicar Cupom</button>
+        </div>
+        <button type="submit">Ir para Pagamento</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="./Pelucia.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginInfo = document.getElementById("login-info");
+      const userLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+  
+      if (userLogado && userLogado.nome) {
+        // Cria link clicável para o perfil do usuário
+        loginInfo.innerHTML = `<a href="./perfil/perfil.html" class="user-profile-link">Bem-vindo, ${userLogado.nome}</a>`;
+      } else {
+        loginInfo.innerHTML = '<a href="./login/login.html" class="login-btn">Faça Login</a>';
+      }
+    });
+</script>
+  
+</body>
+</html>

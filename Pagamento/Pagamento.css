@@ -1,0 +1,100 @@
+/* Fonte e fundo geral */
+body {
+  font-family: 'Quicksand', sans-serif;
+  background-color: #fff6fb;
+  color: #171414;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  flex-direction: column;
+}
+
+/* Título principal */
+h1 {
+  color: #d980b8;
+  font-size: 3rem;
+  margin-bottom: 3vh;
+}
+
+/* Container de pagamento */
+.payment-section {
+  background-color: #fffaff;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 5vh 6vw;
+  width: 90%;
+  max-width: 400px;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.payment-section:hover {
+  transform: scale(1.03);
+}
+
+/* Imagem */
+img {
+  width: 60%;
+  max-width: 200px;
+  margin-bottom: 3vh;
+  border-radius: 10px;
+}
+
+/* Texto informativo */
+p {
+  font-size: 1.1rem;
+  margin-bottom: 2vh;
+  color: #7a4b85;
+}
+
+strong {
+  color: #e091ba;
+}
+
+/* Botões */
+button {
+  background-color: #f4aacd;
+  color: white;
+  padding: 1.5vh 4vw;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 1vh;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e59abc;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* QR Code */
+.qrcode-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3vh;
+}
+
+#qrcode {
+  margin: 2vh auto;
+  text-align: center;
+}
+
+.nome-valor {
+  text-align: center;
+  margin-top: 1.5vh;
+  color: #d889aa;
+  font-weight: bold;
+}

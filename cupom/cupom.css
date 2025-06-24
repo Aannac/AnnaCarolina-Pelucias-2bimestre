@@ -1,0 +1,81 @@
+body {
+  font-family: 'Quicksand', sans-serif;
+  text-align: center;
+  background-color: #fff6fb; /* Rosa pastel claro */
+  padding: 5vh 3vw;
+  margin: 0;
+}
+
+#cupomContainer {
+  background: #fff0f8;
+  padding: 4vh 3vw;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: inline-block; /*Faz o contêiner se comportar como um elemento de bloco, mas com o comportamento de um elemento em linha, o que permite que ele se ajuste automaticamente ao conteúdo.*/
+  max-width: 400px;
+  width: 100%;
+}
+
+.raspadinha {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  margin: 20px auto;
+  cursor: pointer; /*Altera o cursor para uma mãozinha ao passar o mouse sobre o elemento, indicando que ele é clicáve*/
+  overflow: hidden; /*Impede que o conteúdo que ultrapasse os limites da área visível seja exibido*/
+  border-radius: 15px;
+  border: 2px dashed #f3c0d9;
+  background-color: #fffaff;
+}
+
+.cupom-oculto {
+  background-color: #fff0f8;
+  color: #d6006e;
+  font-size: 1.5rem;
+  line-height: 100px;
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: none;
+  border-radius: 15px;
+  font-weight: bold;
+}
+
+.camada-cinza {
+  background-color: #d3a1bd;
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  line-height: 100px;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.5s ease;
+  border-radius: 15px;
+}
+
+button {
+  background-color: #f2b5d4;
+  color: white;
+  padding: 1vh 3vw;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 2vh;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e3a3c0;
+}
+
+button:focus {
+  outline: none;
+}

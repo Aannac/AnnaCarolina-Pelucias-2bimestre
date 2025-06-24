@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Plushies🧸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="perfil.css">
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <header>
+        <div class="logo">
+            🧸 Plushies
+        </div>
+        <a href="../index.html" class="back-btn">
+            ← Voltar à Loja
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-avatar" id="userAvatar">
+                👤
+            </div>
+            <div class="profile-info">
+                <h2 id="userName">Carregando...</h2>
+                <p id="userEmail">carregando@email.com</p>
+                
+                <button class="logout-btn" onclick="logout()">
+                    Sair da Conta
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="section-card">
+                <h3 class="section-title">
+                    📦 Meus Pedidos Recentes
+                </h3>
+                <div id="ordersList">
+                    <div class="order-item">
+                        <div class="order-info">
+                            <h4>Pedido #001</h4>
+                            <p>Ursinho Guilherme - R$ 187,90</p>
+                            <p>15 de Junho, 2025</p>
+                        </div>
+                        <span class="order-status status-delivered">Entregue</span>
+                    </div>
+                    <div class="order-item">
+                        <div class="order-info">
+                            <h4>Pedido #002</h4>
+                            <p>Anakin Banana - R$ 49,99</p>
+                            <p>10 de Junho, 2025</p>
+                        </div>
+                        <span class="order-status status-shipping">Em Trânsito</span>
+                    </div>
+                    <div class="order-item">
+                        <div class="order-info">
+                            <h4>Pedido #003</h4>
+                            <p>Gatão - R$ 129,90</p>
+                            <p>5 de Janeiro, 2025</p>
+                        </div>
+                        <span class="order-status status-processing">Processando</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3 class="section-title">
+                    💖 Meus Favoritos
+                </h3>
+                <div id="favoritesList">
+                    <div class="favorite-item">
+                        <div class="favorite-img">🧸</div>
+                        <div class="favorite-details">
+                            <h4>Ursinho Teddy Clássico</h4>
+                            <p>R$ 75,90 - Pelúcia macia e fofa</p>
+                        </div>
+                        <button class="remove-favorite" onclick="removeFavorite(this)">×</button>
+                    </div>
+                    <div class="favorite-item">
+                        <div class="favorite-img">🦄</div>
+                        <div class="favorite-details">
+                            <h4>Unicórnio Mágico</h4>
+                            <p>R$ 129,90 - Com chifre dourado</p>
+                        </div>
+                        <button class="remove-favorite" onclick="removeFavorite(this)">×</button>
+                    </div>
+                    <div class="favorite-item">
+                        <div class="favorite-img">🐱</div>
+                        <div class="favorite-details">
+                            <h4>Gatão</h4>
+                            <p>R$ 129,90 - Ideal para crianças</p>
+                        </div>
+                        <button class="remove-favorite" onclick="removeFavorite(this)">×</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3 class="section-title">
+                    🏆 Conquistas
+                </h3>
+                <div class="achievement-grid">
+                    <div class="achievement-item">
+                        <div class="achievement-icon">🥇</div>
+                        <div class="achievement-name">Usuário</div>
+                        <div class="achievement-desc">Realizou seu login</div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">💝</div>
+                        <div class="achievement-name">Observador</div>
+                        <div class="achievement-desc">Observou algum item da loja</div>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./perfil.js"></script>
+</body>
+</html>
