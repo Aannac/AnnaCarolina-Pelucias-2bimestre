@@ -1,0 +1,13 @@
+Nome,Email,Senha,Tipo
+"Test User","test978@example.com","test123","cliente"
+"CSV User","csv32@example.com","csvpass","cliente"
+"Test User","test141@example.com","test123","cliente"
+"Gerente Admin","gerente@plushies.com","admin123","gerente"
+"Anna","Anna@gmail.com","123456","gerente"
+"oi","oi@gmail.com","123456","cliente"
+"Gustavo Brandão de Oliveira","gb2859154@gmail.com","GuOBK220109","gerente"
+"João Silva","joao@teste.com","123456","cliente"
+"Test User","test862@example.com","test123","cliente"
+"an","an@gmail.com","123456","cliente"
+"Teste Usuário","teste@teste.com","123456","cliente"
+"Laura Viriato","laura@gmail.com","laura123","gerente"

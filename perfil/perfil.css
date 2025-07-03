@@ -375,3 +375,85 @@ header {
     90% { opacity: 1; }
     100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
 }
+
+/* Estilos para o tipo de usuário */
+.user-type {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 5px 0;
+    font-weight: 600;
+}
+
+/* Estilos para o botão de gerente */
+.manager-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    margin: 10px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+}
+
+.manager-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+    background: linear-gradient(135deg, #ff5582, #b83d5a);
+}
+
+.manager-btn:active {
+    transform: translateY(0);
+}
+
+
+/* Estado vazio dos favoritos */
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #999;
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.empty-state-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b9d, #d6006e);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(214, 0, 110, 0.3);
+}
+
+.empty-state-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(214, 0, 110, 0.4);
+}
+
+/* Animação de fade out */
+@keyframes fadeOut {
+    from { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+    to { 
+        opacity: 0; 
+        transform: translateY(-20px); 
+    }
+}
+

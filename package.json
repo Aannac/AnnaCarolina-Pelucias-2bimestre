@@ -1,27 +1,29 @@
 {
-  "name": "lojinhapelucia",
+  "name": "annacarolina-pelucias-2bimestre",
   "version": "1.0.0",
-  "main": "Pelucia.js",
+  "description": "Sistema de e-commerce para pelúcias com funcionalidade de cookies",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Aannac/dw1.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Aannac/dw1/issues"
-  },
-  "homepage": "https://github.com/Aannac/dw1#readme",
-  "description": "",
   "dependencies": {
-    "body-parser": "^2.2.0",
-    "cors": "^2.8.5",
-    "csv-parser": "^3.2.0",
-    "express": "^5.1.0",
-    "multer": "^2.0.1"
-  }
+    "express": "^4.18.2",
+    "csv-parser": "^3.0.0",
+    "multer": "^1.4.5-lts.1",
+    "cookie-parser": "^1.4.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "ecommerce",
+    "pelucias",
+    "nodejs",
+    "express",
+    "cookies"
+  ],
+  "author": "Anna Carolina",
+  "license": "MIT"
 }
+

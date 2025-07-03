@@ -14,7 +14,7 @@
         <div class="logo">
             🧸 Plushies
         </div>
-        <a href="../index.html" class="back-btn">
+        <a href="../Index.html" class="back-btn">
             ← Voltar à Loja
         </a>
     </header>
@@ -27,6 +27,13 @@
             <div class="profile-info">
                 <h2 id="userName">Carregando...</h2>
                 <p id="userEmail">carregando@email.com</p>
+                <p id="userType" class="user-type">Tipo: Carregando...</p>
+                
+                <div id="managerActions" style="display: none;">
+                    <a href="../crud/crud.html" class="manager-btn">
+                        🛠️ Gerenciar Produtos
+                    </a>
+                </div>
                 
                 <button class="logout-btn" onclick="logout()">
                     Sair da Conta
@@ -35,67 +42,13 @@
         </div>
 
         <div class="main-content">
-            <div class="section-card">
-                <h3 class="section-title">
-                    📦 Meus Pedidos Recentes
-                </h3>
-                <div id="ordersList">
-                    <div class="order-item">
-                        <div class="order-info">
-                            <h4>Pedido #001</h4>
-                            <p>Ursinho Guilherme - R$ 187,90</p>
-                            <p>15 de Junho, 2025</p>
-                        </div>
-                        <span class="order-status status-delivered">Entregue</span>
-                    </div>
-                    <div class="order-item">
-                        <div class="order-info">
-                            <h4>Pedido #002</h4>
-                            <p>Anakin Banana - R$ 49,99</p>
-                            <p>10 de Junho, 2025</p>
-                        </div>
-                        <span class="order-status status-shipping">Em Trânsito</span>
-                    </div>
-                    <div class="order-item">
-                        <div class="order-info">
-                            <h4>Pedido #003</h4>
-                            <p>Gatão - R$ 129,90</p>
-                            <p>5 de Janeiro, 2025</p>
-                        </div>
-                        <span class="order-status status-processing">Processando</span>
-                    </div>
-                </div>
-            </div>
 
             <div class="section-card">
                 <h3 class="section-title">
                     💖 Meus Favoritos
                 </h3>
                 <div id="favoritesList">
-                    <div class="favorite-item">
-                        <div class="favorite-img">🧸</div>
-                        <div class="favorite-details">
-                            <h4>Ursinho Teddy Clássico</h4>
-                            <p>R$ 75,90 - Pelúcia macia e fofa</p>
-                        </div>
-                        <button class="remove-favorite" onclick="removeFavorite(this)">×</button>
-                    </div>
-                    <div class="favorite-item">
-                        <div class="favorite-img">🦄</div>
-                        <div class="favorite-details">
-                            <h4>Unicórnio Mágico</h4>
-                            <p>R$ 129,90 - Com chifre dourado</p>
-                        </div>
-                        <button class="remove-favorite" onclick="removeFavorite(this)">×</button>
-                    </div>
-                    <div class="favorite-item">
-                        <div class="favorite-img">🐱</div>
-                        <div class="favorite-details">
-                            <h4>Gatão</h4>
-                            <p>R$ 129,90 - Ideal para crianças</p>
-                        </div>
-                        <button class="remove-favorite" onclick="removeFavorite(this)">×</button>
-                    </div>
+                    <!-- Os favoritos serão carregados dinamicamente aqui -->
                 </div>
             </div>
 

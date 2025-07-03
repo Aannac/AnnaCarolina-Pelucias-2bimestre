@@ -1,10 +1,27 @@
 let products = [];
 let cart = []; // Adicionando a variável cart que estava faltando
+let userFavorites = []; // Array para armazenar IDs dos produtos favoritos do usuário
 
 async function fetchProducts() {
   const res = await fetch('/api/products');
   products = await res.json();
+  await loadUserFavorites(); // Carregar favoritos do usuário
   renderProducts(products);
+}
+
+// Função para carregar favoritos do usuário
+async function loadUserFavorites() {
+  const userLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+  if (userLogado && userLogado.email) {
+    try {
+      const res = await fetch(`/api/favorites/${userLogado.email}`);
+      const data = await res.json();
+      userFavorites = data.favorites || [];
+    } catch (error) {
+      console.error('Erro ao carregar favoritos:', error);
+      userFavorites = [];
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", fetchProducts);
@@ -13,12 +30,21 @@ function renderProducts(products) {
   const container = document.getElementById("product-list");
   container.innerHTML = "";
   products.forEach(p => {
+    const isFavorite = userFavorites.includes(p.id);
+    const starClass = isFavorite ? 'star-filled' : 'star-empty';
+    const starIcon = isFavorite ? '★' : '☆';
+    
     const card = document.createElement("div");
     card.className = "product-card";
     card.innerHTML = `
-      <h3>${p.name}</h3>
+      <div class="product-header">
+        <h3>${p.name}</h3>
+        <button class="favorite-btn ${starClass}" onclick="toggleFavorite(${p.id})" title="Adicionar aos favoritos">
+          ${starIcon}
+        </button>
+      </div>
       <p>Preço: R$ ${p.price.toFixed(2)}</p>
-      <img src="${p.image}" width="150">
+      <img src="/imagem/${p.image}" width="150">
       <button onclick="addToCart(${p.id})">Adicionar ao Carrinho</button>
     `;
     container.appendChild(card);
@@ -86,18 +112,26 @@ document.getElementById('cartModal').style.display = 'none'; //Define o display 
 }
 
 function openCheckout() {
-document.getElementById('checkoutModal').style.display = 'flex'; //seleciona a janela de "dados", tornando visivel e centralizada
-document.getElementById('cartModal').style.display = 'none'; // faz com que desapareça
+// Verificar se o usuário está logado antes de abrir o checkout
+const usuarioLogado = localStorage.getItem("usuarioLogado");
+if (!usuarioLogado) {
+  alert("Você precisa estar logado para finalizar a compra.");
+  window.location.href = "./login/login.html";
+  return;
+}
 
-const cupom = localStorage.getItem('cupomDesconto'); //ve no armazenamento local se a pessoa revelou o cupom
-const cupomSection = document.getElementById('cupom-section'); //é a div que contém o botão "Aplicar Cupom"
-const botaoCupom = document.getElementById('btn-aplicar-cupom'); //é o botão que o usuário clica para aplicar o cupom no total da compra
+document.getElementById("checkoutModal").style.display = "flex"; //seleciona a janela de "dados", tornando visivel e centralizada
+document.getElementById("cartModal").style.display = "none"; // faz com que desapareça
 
-if (cupom === 'DESCONTO10') { //Se o valor obtido do localStorage for exatamente "DESCONTO10", então o usuário tem um cupom ativo
-  cupomSection.style.display = 'block'; //Torna a seção do cupom visível e habilita o botão para aplicar o cupom
+const cupom = localStorage.getItem("cupomDesconto"); //ve no armazenamento local se a pessoa revelou o cupom
+const cupomSection = document.getElementById("cupom-section"); //é a div que contém o botão "Aplicar Cupom"
+const botaoCupom = document.getElementById("btn-aplicar-cupom"); //é o botão que o usuário clica para aplicar o cupom no total da compra
+
+if (cupom === "DESCONTO10") { //Se o valor obtido do localStorage for exatamente "DESCONTO10", então o usuário tem um cupom ativo
+  cupomSection.style.display = "block"; //Torna a seção do cupom visível e habilita o botão para aplicar o cupom
   botaoCupom.disabled = false;
 } else {
-  cupomSection.style.display = 'none'; //esconde a area do cupom
+  cupomSection.style.display = "none"; //esconde a area do cupom
   botaoCupom.disabled = true; //Desativa o botão "Aplicar Cupom"
 }
 }
@@ -156,6 +190,14 @@ if (desconto > 0) { //se o cupom for válido
 }
 
 function finalizePurchase() {
+// Verificar se o usuário está logado antes de prosseguir
+const usuarioLogado = localStorage.getItem("usuarioLogado");
+if (!usuarioLogado) {
+  alert("Você precisa estar logado para finalizar a compra.");
+  window.location.href = "./login/login.html";
+  return;
+}
+
 const name = document.getElementById("Nome").value.trim(); //Obtém os valores dos campos do formulário e remove espaços extras usando .trim()
 const city = document.getElementById("Cidade").value.trim();
 const street = document.getElementById("Rua").value.trim();
@@ -195,4 +237,84 @@ if (localStorage.getItem('cupomDesconto') === 'DESCONTO10' && botaoCupom) { //Se
   if (cupomSection) cupomSection.style.display = 'block'; //Mostra a seção de cupom
 }
 });
+
+
+
+// Função para alternar favorito
+async function toggleFavorite(productId) {
+  const userLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+  
+  if (!userLogado || !userLogado.email) {
+    alert('Você precisa estar logado para adicionar favoritos!');
+    return;
+  }
+
+  const isFavorite = userFavorites.includes(productId);
+  const endpoint = isFavorite ? '/api/favorites/remove' : '/api/favorites/add';
+  
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: userLogado.email,
+        produto_id: productId
+      })
+    });
+
+    const data = await response.json();
+    
+    if (response.ok) {
+      // Atualizar array local de favoritos
+      if (isFavorite) {
+        userFavorites = userFavorites.filter(id => id !== productId);
+      } else {
+        userFavorites.push(productId);
+      }
+      
+      // Re-renderizar produtos para atualizar as estrelas
+      renderProducts(products);
+      
+      // Feedback visual
+      const message = isFavorite ? 'Produto removido dos favoritos!' : 'Produto adicionado aos favoritos!';
+      showNotification(message);
+    } else {
+      console.error('Erro:', data.error || data.message);
+    }
+  } catch (error) {
+    console.error('Erro ao alterar favorito:', error);
+    alert('Erro ao processar favorito. Tente novamente.');
+  }
+}
+
+// Função para mostrar notificação
+function showNotification(message) {
+  // Criar elemento de notificação
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Remover após 3 segundos
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.parentNode.removeChild(notification);
+    }
+  }, 3000);
+}
 

@@ -84,3 +84,16 @@ function pagarPIX() {
   qrCodeDiv.appendChild(info);
 }
 //o CRC é um campo obrigatório no final do payload (a "mensagem codificada") e serve para garantir que o conteúdo do QR Code não foi alterado ou corrompido.
+
+document.addEventListener("DOMContentLoaded", function() {
+  const usuarioLogado = localStorage.getItem("usuarioLogado");
+  const gerarQrCodeBtn = document.getElementById("gerarQrCodeBtn");
+
+  if (usuarioLogado) {
+    gerarQrCodeBtn.disabled = false;
+  } else {
+    alert("Você precisa estar logado para finalizar a compra.");
+    window.location.href = "../login/login.html";
+  }
+});
+

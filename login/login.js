@@ -37,7 +37,6 @@ signInButton.addEventListener('click', () => {
     container.classList.remove("right-panel-active");
 });
 
-
 function toggleMobile() {
     const signInPanel = document.querySelector('.sign-in-panel');
     const signUpPanel = document.querySelector('.sign-up-panel');
@@ -82,6 +81,44 @@ function showSuccess(elementId, message) {
     }, 3000);
 }
 
+// Função para verificar se os cookies foram aceitos
+function checkCookiesAccepted() {
+    return document.cookie.split(';').some((item) => item.trim().startsWith('cookiesAceitos=true'));
+}
+
+// Função para mostrar notificação de cookies aceitos
+function showCookieNotification() {
+    if (checkCookiesAccepted()) {
+        console.log('Cookies já foram aceitos pelo usuário');
+        // Opcional: mostrar uma pequena notificação discreta
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        notification.textContent = '✓ Cookies aceitos';
+        document.body.appendChild(notification);
+        
+        // Fade in
+        setTimeout(() => notification.style.opacity = '1', 100);
+        
+        // Fade out e remover
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => document.body.removeChild(notification), 300);
+        }, 2000);
+    }
+}
+
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -104,34 +141,31 @@ loginForm.addEventListener('submit', (e) => {
     }
 
     if (isValid) {
-        fetch('/api/cadastrar', {
+        fetch('/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ name, email, password })
+          credentials: 'include', // Importante para incluir cookies
+          body: JSON.stringify({ email, password })
         })
         .then(res => res.json())
         .then(data => {
-          if (data.message) {
-            showSuccess('signupSuccess', 'Conta criada com sucesso! Redirecionando...');
-            signupForm.reset();
-            setTimeout(() => {
-              if (window.innerWidth <= 768) {
-                toggleMobile();
-              } else {
-                container.classList.remove("right-panel-active");
-              }
-            }, 2000);
+          if (data.redirect && data.usuario) {
+            localStorage.setItem("usuarioLogado", JSON.stringify(data.usuario));
+            // Sucesso no login, redirecionar
+            window.location.href = data.redirect;
+          } else if (data.error) {
+            showError('loginPasswordError', data.error);
           }
         })
         .catch(err => {
-          console.error('Erro ao cadastrar:', err);
-          showError('emailError', 'Erro ao cadastrar. Tente novamente.');
+          console.error('Erro ao fazer login:', err);
+          showError('loginPasswordError', 'Erro ao fazer login. Tente novamente.');
         });
-      }
-      
-    })
+    }
+});
+
 signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -158,11 +192,6 @@ signupForm.addEventListener('submit', (e) => {
         isValid = false;
     }
 
-    if (users.find(u => u.email === email)) {
-        showError('emailError', 'Este email já está cadastrado');
-        isValid = false;
-    }
-
     if (!validatePassword(password)) {
         showError('passwordError', 'A senha deve ter pelo menos 6 caracteres');
         isValid = false;
@@ -179,21 +208,50 @@ signupForm.addEventListener('submit', (e) => {
     }
 
     if (isValid) {
-        users.push({ name, email, password });
-        showSuccess('signupSuccess', 'Conta criada com sucesso! Redirecionando...');
-        signupForm.reset();
-        setTimeout(() => {
-            if (window.innerWidth <= 768) {
+        fetch('/api/cadastrar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include', // Importante para incluir cookies
+          body: JSON.stringify({ name, email, password })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.message) {
+            // Mostrar mensagem de sucesso incluindo aceitação de cookies
+            const successMessage = data.cookiesAceitos 
+              ? 'Conta criada com sucesso! Cookies aceitos automaticamente. Redirecionando...'
+              : 'Conta criada com sucesso! Redirecionando...';
+            
+            showSuccess('signupSuccess', successMessage);
+            signupForm.reset();
+            
+            // Log para debug
+            console.log('Cadastro realizado com sucesso. Cookies aceitos:', data.cookiesAceitos);
+            
+            setTimeout(() => {
+              if (window.innerWidth <= 768) {
                 toggleMobile();
-            } else {
+              } else {
                 container.classList.remove("right-panel-active");
-            }
-        }, 2000);
+              }
+            }, 2000);
+          } else if (data.error) {
+            showError('emailError', data.error);
+          }
+        })
+        .catch(err => {
+          console.error('Erro ao cadastrar:', err);
+          showError('emailError', 'Erro ao cadastrar. Tente novamente.');
+        });
     }
 });
 
 window.addEventListener('load', () => {
     document.body.classList.add('fade-in');
+    // Verificar status dos cookies ao carregar a página
+    checkCookiesAccepted();
 });
 
 window.addEventListener('resize', () => {
@@ -206,3 +264,23 @@ window.addEventListener('resize', () => {
 if (window.innerWidth <= 768) {
     document.querySelector('.sign-up-panel').style.display = 'none';
 }
+
+// Verificar cookies quando a página carrega
+document.addEventListener('DOMContentLoaded', () => {
+    // Verificar se os cookies foram aceitos
+    fetch('/api/check-cookies', {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.cookiesAceitos) {
+            console.log('Cookies já foram aceitos anteriormente');
+            showCookieNotification();
+        }
+    })
+    .catch(err => {
+        console.log('Erro ao verificar status dos cookies:', err);
+    });
+});
+
